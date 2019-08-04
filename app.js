@@ -1,6 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var router = express.Router();
+const rateLimit = require("express-rate-limit");
 
 app = express();
 app.use(bodyParser.urlencoded({
@@ -8,9 +9,10 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
-
-
-
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+});
 
 //==========================================================================================================================
 // ROUTES
@@ -188,48 +190,14 @@ app.post("/api/acronym", function (req, res) {
         stack: null,
         result: false
     }
-    var fullstop = "."
-
-    console.log("====================================")
-    console.log("Length of entry data: " + data.length)
-    console.log("====================================")
-    console.log("Type of entry data:   " + typeof data)
-    console.log("====================================")
-    console.log("Entry data: " + data);
-    console.log("====================================")
 
     function acronymn() {
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].length <= 1) {
-                continue
-            } else if (data[i].length > 1 && data[i] === data[i].toUpperCase()) {
-                var twoLetterWord = data[i].charAt(0).toUpperCase(0) + fullstop
-            } else if (data[i].toUpperCase() && data[i].length == 1) {
-                twoLetterWord = data[i].charAt()
-            }
-            var twoLetterWord = data[i].charAt(0).toUpperCase(0) + fullstop
-
-            console.log(data)
-            console.log(twoLetterWord)
-
-        }
-        // var final = final.endsWith(".")
-
 
     }
-
     acronymn();
 });
 
-// for (let i = 0; i < data.length; i++) {
-//     var everythingUp = data[i].toUpperCase()
-//     console.log(everythingUp)
-// }
 
-// return data.split(/\b(?=[a-z])/ig) // split on word boundaries
-//     .map(token => token[0]) // get first letter of each token
-//     .join('').toUpperCase() // convert to lowercase string
-// ;
 
 //==========================================================================================================================
 // Listen to the right port
